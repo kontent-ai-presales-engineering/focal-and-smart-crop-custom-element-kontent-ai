@@ -383,6 +383,7 @@
     />
     <button id="loadBtn" type="button">Load image</button>
     <button id="selectAssetBtn" type="button">Select image from Kontent</button>
+    <button id="clearBtn" type="button">Clear</button>
     <div class="message-stack">
       <div id="status" class="status">
         Load an image, click to set focal point, then generate crop previews.
@@ -1258,6 +1259,26 @@
     });
 
     loadBtn.addEventListener("click", loadImage);
+
+    const clearBtn = document.getElementById("clearBtn");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", () => {
+        assetUrlInput.value = "";
+        assetIdInput.value = "";
+        focalPoint = null;
+        lastPresetWH = {};
+        lastCustomWH = null;
+        sourceImage.src = "";
+        results.innerHTML = "";
+        focalMarker.style.display = "none";
+        if (cropGuide) cropGuide.style.display = "none";
+        if (focalCoords) focalCoords.textContent = "";
+        status.textContent = "Load an image, click to set focal point, then generate crop previews.";
+        renderPresetGuideToggleList();
+        scheduleSave();
+        updateSize();
+      });
+    }
 
     if (selectAssetBtn) {
       selectAssetBtn.addEventListener("click", selectAssetFromKontent);
