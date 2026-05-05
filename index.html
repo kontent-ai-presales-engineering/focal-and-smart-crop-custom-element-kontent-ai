@@ -676,6 +676,9 @@
       const details = await getAssetDetailsFn(assetIds);
       if (!details || !details[0] || !details[0].url) return;
 
+      console.log(details)
+      console.log(assetIds)
+
       assetUrlInput.value = details[0].url;
       status.textContent = "Selected asset. Loading crop previews...";
 
