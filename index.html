@@ -377,6 +377,10 @@
       type="url"
       value="https://assets-us-01.kc-usercontent.com:443/8d20758c-d74c-4f59-ae04-ee928c0816b7/6e38c039-ad00-47f3-a584-26252827655a/daylight.jpg"
     />
+    <input
+      id="assetId"
+      hidden
+    />
     <button id="loadBtn" type="button">Load image</button>
     <button id="selectAssetBtn" type="button">Select image from Kontent</button>
     <div class="message-stack">
@@ -441,6 +445,7 @@
     };
 
     const assetUrlInput = document.getElementById("assetUrl");
+    const assetIdInput = document.getElementById("assetId");
     const loadBtn = document.getElementById("loadBtn");
     const selectAssetBtn = document.getElementById("selectAssetBtn");
     const imageWrap = document.getElementById("imageWrap");
@@ -485,8 +490,10 @@
       saveTimeout = setTimeout(() => {
         try {
           const baseUrl = assetUrlInput.value.trim();
+          const assetId = assetIdInput.value.trim();          
           const payload = {
             assetUrl: baseUrl || null,
+            assetId: assetId || null,
             ...(cropMode === "focal" && focalPoint
               ? { fX: focalPoint.x, fY: focalPoint.y }
               : {}),
@@ -592,6 +599,7 @@
           const stored = parseStoredPayload(element.value);
           if (stored && typeof stored === "object") {
             if (stored.assetUrl) assetUrlInput.value = stored.assetUrl;
+            if (stored.assetId) assetIdInput.value = stored.assetId;            
             if (stored.cropMode === "smart" || stored.cropMode === "focal") {
               cropMode = stored.cropMode;
             }
@@ -650,8 +658,6 @@
     }
 
     async function selectAssetFromKontent() {
-
-      console.log("test")
       if (!window.CustomElement || typeof CustomElement.selectAssets !== "function") {
         status.textContent = "Kontent CustomElement API not available.";
         return;
@@ -663,8 +669,6 @@
         allowMultiple: false,
         fileType: "images",
       });
-
-      console.log(refs)
 
       if (!refs || !Array.isArray(refs) || refs.length === 0) return;
 
@@ -680,10 +684,8 @@
       const details = await getAssetDetailsFn(assetIds);
       if (!details || !details[0] || !details[0].url) return;
 
-      console.log(details)
-      console.log(assetIds)
-
       assetUrlInput.value = details[0].url;
+      assetIdInput.value = details[0].id
       status.textContent = "Selected asset. Loading crop previews...";
 
       // Reset last computed values so the next refresh saves correct output.
