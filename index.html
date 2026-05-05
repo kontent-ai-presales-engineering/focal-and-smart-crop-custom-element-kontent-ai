@@ -650,6 +650,8 @@
     }
 
     async function selectAssetFromKontent() {
+
+      console.log("test")
       if (!window.CustomElement || typeof CustomElement.selectAssets !== "function") {
         status.textContent = "Kontent CustomElement API not available.";
         return;
@@ -661,6 +663,8 @@
         allowMultiple: false,
         fileType: "images",
       });
+
+      console.log(refs)
 
       if (!refs || !Array.isArray(refs) || refs.length === 0) return;
 
