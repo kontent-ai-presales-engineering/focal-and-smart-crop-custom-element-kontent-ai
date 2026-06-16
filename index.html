@@ -131,11 +131,42 @@
       background: #ffffff;
     }
 
+    .image-layout-collapsible {
+      margin-bottom: 16px;
+    }
+
+    .image-layout-toggle {
+      cursor: pointer;
+      user-select: none;
+      font-weight: 600;
+      font-size: 14px;
+      color: #374151;
+      padding: 6px 4px;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .image-layout-toggle::-webkit-details-marker {
+      display: none;
+    }
+
+    .image-layout-toggle::before {
+      content: "▶";
+      font-size: 10px;
+      transition: transform 0.15s ease;
+    }
+
+    details[open] .image-layout-toggle::before {
+      transform: rotate(90deg);
+    }
+
     .image-layout {
       display: flex;
       align-items: flex-start;
       gap: 14px;
-      margin-bottom: 16px;
+      margin-top: 8px;
       flex-wrap: wrap;
     }
 
@@ -400,29 +431,32 @@
     </div>
   </div>
 
-  <div class="image-layout">
-    <div id="imageWrap" class="image-wrap" title="Click image to select focal point">
-      <img id="sourceImage" alt="Source asset" />
-      <div id="focalMarker" class="focal-marker" aria-hidden="true"></div>
-      <div id="cropGuide" class="crop-guide" aria-hidden="true">
-        <div class="crop-guide-handle" data-corner="nw"></div>
-        <div class="crop-guide-handle" data-corner="ne"></div>
-        <div class="crop-guide-handle" data-corner="sw"></div>
-        <div class="crop-guide-handle" data-corner="se"></div>
-        <div class="crop-guide-handle" data-edge="n"></div>
-        <div class="crop-guide-handle" data-edge="s"></div>
-        <div class="crop-guide-handle" data-edge="w"></div>
-        <div class="crop-guide-handle" data-edge="e"></div>
+  <details class="image-layout-collapsible">
+    <summary class="image-layout-toggle">Image editor</summary>
+    <div class="image-layout">
+      <div id="imageWrap" class="image-wrap" title="Click image to select focal point">
+        <img id="sourceImage" alt="Source asset" />
+        <div id="focalMarker" class="focal-marker" aria-hidden="true"></div>
+        <div id="cropGuide" class="crop-guide" aria-hidden="true">
+          <div class="crop-guide-handle" data-corner="nw"></div>
+          <div class="crop-guide-handle" data-corner="ne"></div>
+          <div class="crop-guide-handle" data-corner="sw"></div>
+          <div class="crop-guide-handle" data-corner="se"></div>
+          <div class="crop-guide-handle" data-edge="n"></div>
+          <div class="crop-guide-handle" data-edge="s"></div>
+          <div class="crop-guide-handle" data-edge="w"></div>
+          <div class="crop-guide-handle" data-edge="e"></div>
+        </div>
       </div>
+      <aside class="preset-visualizer" aria-label="Preset crop visualizer">
+        <h3>Preset crop visualizer</h3>
+        <div id="presetToggleList" class="preset-toggle-list"></div>
+        <div id="presetToggleHint" class="preset-toggle-hint">
+          Select a preset to display its crop frame on the main image.
+        </div>
+      </aside>
     </div>
-    <aside class="preset-visualizer" aria-label="Preset crop visualizer">
-      <h3>Preset crop visualizer</h3>
-      <div id="presetToggleList" class="preset-toggle-list"></div>
-      <div id="presetToggleHint" class="preset-toggle-hint">
-        Select a preset to display its crop frame on the main image.
-      </div>
-    </aside>
-  </div>
+  </details>
 
   <div id="results" class="results"></div>
   </div>
